@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+    main {
+      width: 80%;
+      margin: auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+    }
+    img {
+      width: 100%;
+      height: auto;
+    }
+    p {
+      color: #666;
+    }
+    a {
+      margin-right: 10px;
+    }
+    button {
+      padding: 10px;
+      background-color: #333;
+      color: white;
+      border: none;
+    }
+  </style>
+
+  <main>
+    <h1>{{ country.name }}</h1>
+    <img src="{{ country.flag }}" alt="{{ country.name }} flag">
+    <p>Slug: {{ country.slug }}</p>
+    <p>Created at: {{ country.created_at }}</p>
+    <p>Updated at: {{ country.updated_at }}</p>
+    <p>Created by: {{ country.created_by }}</p>
+    <a href="{% url 'country:country-update' slug=country.slug %}">
+      <button type="button">Update</button>
+    </a>
+    <a href="{% url 'country:country-delete' slug=country.slug %}">
+      <button type="button">Delete</button>
+    </a>
+  </main>
+{% endblock %}

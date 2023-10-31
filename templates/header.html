@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS LINK -->
+    
+    <title>project</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        .navbar a.active {
+            color: #f0f0f0;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-------------------------------------------- HEADER SECTION -->
+    <header class="header" >
+    <!-- <a href="#" class="logo">
+            <img src="../static/image/kuttush.png" alt="logo">
+        </a>-->
+        <nav class="navbar">
+            <a  class="{% if request.path == '/home/'   %} active  {% endif %}" href= "{% url 'Home' %}">home</a>
+            <a  class= "{% if request.path == '/city/'   %} active  {% endif %}" href="{% url 'city' %}">city</a>
+            <a  class= "{% if request.path == '/country/'   %} active  {% endif %}" href="{% url 'country' %}">country</a>
+            
+        </nav>
+    </header>

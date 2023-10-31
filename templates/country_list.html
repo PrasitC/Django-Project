@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            font-size: 2em;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        li {
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 10px;
+            flex-basis: calc(33% - 20px);
+            box-sizing: border-box;
+            margin: 10px;
+        }
+        img {
+            width: 100%;
+            height: auto;
+        }
+        h2 {
+            text-align: center;
+            color: #666;
+        }
+    </style>
+    <main>
+        <h1>Countries</h1>
+        <ul>
+          {% for country in countries %}
+            <li>
+              <h2><a href="{% url 'country:country-detail' slug=country.slug %}">{{ country.name }}</a></h2>
+              <img src="{{ country.flag }}" alt="{{ country.name }} flag">
+              <p>Created at: {{ country.created_at }}</p>
+              <p>Updated at: {{ country.updated_at }}</p>
+              <p>Created by: {{ country.created_by }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      </main>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+<!-----------------HEADER SECTION -->
+{% block content %}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+    main {
+      width: 80%;
+      margin: auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #333;
+    }
+    p {
+      color: #666;
+    }
+    button {
+      padding: 10px;
+      background-color: #333;
+      color: white;
+      border: none;
+      margin-top: 10px;
+    }
+    button a {
+      color: white;
+      text-decoration: none;
+    }
+  </style>
+
+  <main>
+    <!--login -->
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+      <strong>Message:</strong> {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+
+    <h2>Welcome !</h2>
+
+    {% if user.is_authenticated %}
+    <h2>Hello {{fname}}!</h2>
+    <p>You're successfully logged in.</p>
+    <button type="submit"><a href="/signout">SignOut</a></button>
+    <button type="submit"><a href="/city/city/">City</a></button>
+    <button type="submit"><a href="/country/countries/">Country</a></button>
+   
+    {% else %}
+    <button type="submit"><a href="/signup">SignUp</a></button>
+    <br/>
+    <br/>
+    <button type="submit"><a href="/signin">SignIn</a></button>
+    {% endif %}
+  </main>
+
+{% endblock  %}
+</body>
+</html>

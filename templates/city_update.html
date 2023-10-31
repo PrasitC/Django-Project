@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+    main {
+      width: 80%;
+      margin: auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+    }
+    form {
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px;
+      background-color: #333;
+      color: white;
+      border: none;
+    }
+  </style>
+
+  <main>
+    <h1>Update City</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Update</button>
+    </form>
+  </main>
+{% endblock %}
