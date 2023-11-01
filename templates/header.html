@@ -37,7 +37,7 @@
             <img src="../static/image/kuttush.png" alt="logo">
         </a>-->
         <nav class="navbar">
-            <a  class="{% if request.path == '/home/'   %} active  {% endif %}" href= "{% url 'Home' %}">home</a>
+            
             <a  class= "{% if request.path == '/city/'   %} active  {% endif %}" href="{% url 'city' %}">city</a>
             <a  class= "{% if request.path == '/country/'   %} active  {% endif %}" href="{% url 'country' %}">country</a>
             

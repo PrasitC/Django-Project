@@ -36,6 +36,10 @@
     </style>
     <main>
         <h1>Countries</h1>
+        <a href="{% url 'city:city-add' %}">
+            <button>Add City</button>
+        </a>
+      
         <ul>
           {% for country in countries %}
             <li>

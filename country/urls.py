@@ -8,6 +8,6 @@ urlpatterns = [
     path('countries/<slug:slug>/', CountryDetail.as_view(), name='country-detail'),
    path('countries/<slug:slug>/update/', CountryUpdate.as_view(), name='country-update'),
     path('countries/<slug:slug>/delete/', CountryDelete.as_view(), name='country-delete'),
-     path('city/add/', CountryCreate.as_view(), name='city-add'),
+     path('country/add/', CountryCreate.as_view(), name='country-add'),
 ]
 
