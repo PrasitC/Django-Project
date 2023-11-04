@@ -1,60 +1,50 @@
+
 from django.shortcuts import render
-from rest_framework import generics
 from .models import City
-from .serializers import CitySerializer
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView , CreateView
 from .forms import CityForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class CityList(generics.ListAPIView):
-    queryset = City.objects.all()
-    serializer_class = CitySerializer
+class CityList(LoginRequiredMixin,ListView):
+     model = City
+     template_name = 'city_list.html'
+     context_object_name = 'cities'
+ 
 
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer =  CitySerializer(queryset, many=True)
-        print(serializer.data)  # Add this line
-        return render(request, "city_list.html", {'cities': serializer.data})
-    
+class CityDetail(LoginRequiredMixin,DetailView):
+    model = City
+    template_name = 'city_detail.html'
+    context_object_name = 'city'
+    slug_url_kwarg = 'slug'
+    slug_field = 'slug'
 
-
-class CityDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = City.objects.all()
-    serializer_class =  CitySerializer
-    lookup_field = 'slug'
-
-  
-    def retrieve(self, request, slug):
-      city = get_object_or_404(City, slug=slug)
-      serializer = CitySerializer(city)
-      print(serializer.data)
-      return render(request, 'city_detail.html', {'city': city})
-    
+   
 
 
 
 
 
-
-
-class CityUpdate(UpdateView):
+class CityUpdate(LoginRequiredMixin ,UpdateView):
     model = City
     form_class = CityForm
     template_name = 'city_update.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
-    success_url = reverse_lazy('city:city-list')
+    success_url = reverse_lazy('city:cities')
 
     def form_valid(self, form):
-        form.save()
+        city=form.save(commit=False)
+        city.updated_by = self.request.user
+        city.save()
         return super().form_valid(form)
 
-class CityDelete(DeleteView):
+class CityDelete(LoginRequiredMixin,DeleteView):
     model = City
     template_name = 'city_delete.html'
-    success_url = reverse_lazy('city:city-list')
+    success_url = reverse_lazy('city:cities')
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
 
@@ -76,10 +66,10 @@ class CityDelete(DeleteView):
 
 
 
-class CityCreate(CreateView):
+class CityCreate(LoginRequiredMixin,CreateView):
     model = City
     template_name = 'city_add.html'
-    fields = ['name', 'slug', 'flag', 'created_by']  # Add the fields you want to include in the form
+    fields = ['name', 'slug', 'flag', 'created_by','ref_country']  
 
     def get_success_url(self):
-        return reverse_lazy('city:city-list')
+        return reverse_lazy('city:cities')

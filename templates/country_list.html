@@ -26,8 +26,10 @@
             margin: 10px;
         }
         img {
-            width: 100%;
+            display: block;
+            max-width: 500px;
             height: auto;
+            margin: 0 auto;
         }
         h2 {
             text-align: center;
@@ -37,14 +39,16 @@
     <main>
         <h1>Countries</h1>
         <a href="{% url 'country:country-add' %}">
-            <button>Add Country</button>
+            <button>Add country</button>
         </a>
       
         <ul>
           {% for country in countries %}
             <li>
               <h2><a href="{% url 'country:country-detail' slug=country.slug %}">{{ country.name }}</a></h2>
-              <img src="{{ country.flag }}" alt="{{ country.name }} flag">
+              {% if country.flag %}  <!-- Check if a flag has been uploaded -->
+              <img src="{{ country.flag.url }}" alt="{{ country.name }} flag">
+            {% endif %}
               <p>Created at: {{ country.created_at }}</p>
               <p>Updated at: {{ country.updated_at }}</p>
               <p>Created by: {{ country.created_by }}</p>

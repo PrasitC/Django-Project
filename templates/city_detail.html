@@ -7,9 +7,11 @@
       font-size: 2em;
     }
     img {
-      width: 200px;
+      display: block;
+      max-width: 500px;
       height: auto;
-    }
+      margin: 0 auto;
+  }
     p {
       color: #666;
       font-size: 1em;
@@ -17,11 +19,12 @@
   </style>
 
   <h1>{{ city.name }}</h1>
-  <img src="{{ city.flag }}" alt="{{ city.name }} flag">
+  <img src="{{ city.flag.url }}" alt="{{ city.name }} flag">
   <p>Slug: {{ city.slug }}</p>
   <p>Created at: {{ city.created_at }}</p>
   <p>Updated at: {{ city.updated_at }}</p>
   <p>Created by: {{ city.created_by }}</p>
+  <p>Updated by: {{ city.updated_by }}</p>
   <a href="{% url 'city:city-update' slug=city.slug %}">
     <button type="button">Update</button>
   </a>

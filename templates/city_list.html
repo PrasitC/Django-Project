@@ -33,9 +33,11 @@
       text-decoration: none;
     }
     img {
-      width: 100%;
+      display: block;
+      max-width: 500px;
       height: auto;
-    }
+      margin: 0 auto;
+  }
   </style>
 
   <main>
@@ -48,7 +50,10 @@
         <li>
           <h2><a href="{% url 'city:city-detail' slug=city.slug %}">{{ city.name }}</a></h2>
           <p>Ref Country: {{ city.ref_country }}</p>
-          <img src="{{ city.flag }}" alt="{{ city.name }} flag">
+          {% if city.flag %}  <!-- Check if a flag has been uploaded -->
+          <img src="{{ city.flag.url }}" alt="{{ city.name }} flag">
+        {% endif %}
+          
           <p>Created at: {{ city.created_at }}</p>
           <p>Updated at: {{ city.updated_at }}</p>
           <p>Created by: {{ city.created_by }}</p>
