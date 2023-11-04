@@ -3,14 +3,15 @@
     
 
     <nav class="navbar">
-        <a  class="{% if request.path == '/home/'   %} active  {% endif %}" href= "{% url 'Home' %}">home</a>
-        <a  class= "{% if request.path == '/city/'   %} active  {% endif %}" href="{% url 'city' %}">city</a>
-        <a  class= "{% if request.path == '/country/'   %} active  {% endif %}" href="{% url 'country' %}">country</a>
-        
+        <a class="{% if request.path == '' %} active {% endif %}" href="{% url 'city:cities' %}">city</a>
+        <a class="{% if request.path == '/country/' %} active {% endif %}" href="{% url 'country:countries' %}">country</a>
     </nav>
     
 </footer>
 
-<script src="../static/js/index.js"></script>
+
 </body>
 </html>
+
+
+

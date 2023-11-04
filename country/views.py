@@ -1,53 +1,47 @@
+from django.views.generic import ListView,DetailView
 from django.shortcuts import render
-from rest_framework import generics
 from .models import Country
-from .serializers import CountrySerializer
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from .forms import  CountryForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+class CountryList(LoginRequiredMixin,ListView):
+     model= Country
+     template_name = 'country_list.html'
+     context_object_name = 'countries'
+   
 
-class CountryList(generics.ListAPIView):
-    queryset = Country.objects.all()
-    serializer_class = CountrySerializer
+class CountryDetail(LoginRequiredMixin,DetailView):
+    model = Country
+    template_name = 'country_detail.html'
+    context_object_name = 'country'
+    slug_url_kwarg = 'slug'
+    slug_field = 'slug'
 
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer = CountrySerializer(queryset, many=True)
-        print(serializer.data)  # Add this line
-        return render(request, "country_list.html", {'countries': serializer.data})
-class CountryDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Country.objects.all()
-    serializer_class = CountrySerializer
-    lookup_field = 'slug'
-
-    def retrieve(self, request, slug):
-        country = get_object_or_404(Country, slug=slug)
-        serializer = CountrySerializer(country)
-        print(serializer.data)
-        return render(request, 'country_detail.html', {'country': country})
-    
+  
 
 
 
 
-class  CountryUpdate(UpdateView):
+class  CountryUpdate(LoginRequiredMixin,UpdateView):
     model = Country
     form_class =  CountryForm
     template_name = 'country_update.html'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
-    success_url = reverse_lazy('country:country-list')
+    success_url = reverse_lazy('country:countries')
 
     def form_valid(self, form):
-        form.save()
+        country = form.save(commit=False)
+        country.updated_by = self.request.user
+        country.save()
         return super().form_valid(form)
 
-class CountryDelete(DeleteView):
+class CountryDelete(LoginRequiredMixin,DeleteView):
     model = Country
     template_name = 'country_delete.html'
-    success_url = reverse_lazy('country:country-list')
+    success_url = reverse_lazy('country:countries')
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
 
@@ -67,10 +61,10 @@ class CountryDelete(DeleteView):
     
 
 
-class CountryCreate(CreateView):
+class CountryCreate(LoginRequiredMixin,CreateView):
     model = Country
     template_name = 'country_add.html'
-    fields = ['name', 'slug', 'flag', 'created_by']  # Add the fields you want to include in the form
+    fields = ['name', 'slug', 'flag', 'created_by'] 
 
     def get_success_url(self):
-        return reverse_lazy('country:country-list')
+        return reverse_lazy('country:countries')

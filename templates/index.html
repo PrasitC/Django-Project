@@ -1,4 +1,6 @@
-
+{% extends "base.html" %}
+<!-----------------HEADER SECTION -->
+{% block content %}
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -48,18 +50,17 @@
     {% if user.is_authenticated %}
     <h2>Hello {{fname}}!</h2>
     <p>You're successfully logged in.</p>
-    <button type="submit"><a href="/signout">SignOut</a></button>
-    <button type="submit"><a href="/city/city/">City</a></button>
-    <button type="submit"><a href="/country/countries/">Country</a></button>
-   
+    <button type="submit"><a href="{% url 'accounts:signout' %}">SignOut</a></button>
+    <button type="submit"><a href="{% url 'city:cities' %}">City</a></button>
+    <button type="submit"><a href="{% url 'country:countries' %}">Country</a></button>
     {% else %}
-    <button type="submit"><a href="/signup">SignUp</a></button>
+    <button type="submit"><a href="{% url 'accounts:signup' %}">SignUp</a></button>
     <br/>
     <br/>
-    <button type="submit"><a href="/signin">SignIn</a></button>
+    <button type="submit"><a href="{% url 'accounts:signin' %}">SignIn</a></button>
     {% endif %}
   </main>
 
-
+{% endblock  %}
 </body>
 </html>

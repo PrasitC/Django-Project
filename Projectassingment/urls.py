@@ -16,19 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from Projectassingment import views
-from accounts import urls
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
+   
     path('admin/', admin.site.urls),
-    path('', include('accounts.urls')),
-     path('country/', include('country.urls')),
-      path('city/', include('city.urls')),
-    path('home/', views.homep, name= 'Home' ),
-    path('city/', views.city, name= 'city' ),
-    path('country/', views.country, name= 'country' ),
-    
-  # path('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
-
-
+    path('', include('accounts.urls', namespace='accounts')),
+    path('country/', include('country.urls')),
+    path('city/', include('city.urls')),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
