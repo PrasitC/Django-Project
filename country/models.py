@@ -8,7 +8,7 @@ class Country(models.Model):
     slug = models.SlugField(unique=True)
     flag = models.ImageField(blank=True)
   
-    created_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)  
     created_by = models.ForeignKey(User, related_name='countries_created',on_delete=models.CASCADE)
     updated_by = models.ForeignKey(User, related_name='countries_updated', null=True, on_delete=models.SET_NULL)
